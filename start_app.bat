@@ -1,12 +1,7 @@
 @echo off
-echo Installing dependencies...
-call npm install
-if %errorlevel% neq 0 (
-    echo.
-    echo Error: npm install failed. Do you have Node.js installed?
-    echo.
-    pause
-    exit /b
+if not exist node_modules (
+    echo Installing dependencies...
+    call npm install
 )
 
 echo.

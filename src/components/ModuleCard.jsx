@@ -39,11 +39,33 @@ const ModuleCard = ({ module, onUpdate }) => {
         // Standard anchor behavior takes over
     };
 
-    const handleCheckNow = (e) => {
+    const handleCheckNow = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(`[Active Monitor] Checking ${module.url}...`);
-        alert(`[Active Monitor] Checking ${module.nickname}...\n(Placeholder for Antigravity Browser Agent)`);
+
+        // Optimistic UI feedback could be added here
+        console.log(`[Active Monitor] Requesting check for ${module.nickname}...`);
+
+        try {
+            const response = await fetch('http://localhost:3001/api/check', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    url: ensureProtocol(module.url),
+                    nickname: module.nickname
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Server error');
+            }
+
+        } catch (error) {
+            console.error('Check failed:', error);
+            alert(`Failed to start Agent:\n${error.message}\n\nMake sure 'start_server.bat' is running!`);
+        }
     };
 
     const handleAddLink = (e) => {
