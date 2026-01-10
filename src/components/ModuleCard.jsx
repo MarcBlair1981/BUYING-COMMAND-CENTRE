@@ -108,9 +108,13 @@ const ModuleCard = ({ module, onUpdate }) => {
             {/* Header */}
             <div className="flex justify-between items-start mb-4">
                 <div className="flex-1 min-w-0 pr-2">
-                    <h3 className="font-semibold text-lg text-card-foreground truncate" title={module.nickname}>
-                        {module.nickname}
-                    </h3>
+                    <input
+                        value={module.nickname}
+                        onChange={(e) => onUpdate(module.id, { nickname: e.target.value })}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        className="font-semibold text-lg text-card-foreground bg-transparent border-none focus:outline-none focus:ring-0 w-full truncate p-0 placeholder:text-muted-foreground/50 border-b border-transparent focus:border-border hover:border-border/50 transition-colors"
+                        placeholder="Module Name"
+                    />
                     {module.type !== 'group' && (
                         <span className="text-xs text-muted-foreground truncate block" title={module.url}>
                             {domain}
