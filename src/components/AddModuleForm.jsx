@@ -10,7 +10,9 @@ const AddModuleForm = ({ onAdd }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!nickname || !url) return;
+        // Validation: URL required only for quick_link and active_monitor
+        if (!nickname) return;
+        if ((type === 'quick_link' || type === 'active_monitor') && !url) return;
 
         onAdd({ nickname, url, type });
         // Reset
