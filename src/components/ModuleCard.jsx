@@ -89,6 +89,7 @@ const ModuleCard = ({ module, onUpdate }) => {
     const getBorderColor = () => {
         if (module.type === 'active_monitor') return 'border-l-blue-500';
         if (module.type === 'group') return 'border-l-purple-500';
+        if (module.type === 'note') return 'border-l-yellow-500';
         return 'border-l-green-500';
     };
 
@@ -136,7 +137,15 @@ const ModuleCard = ({ module, onUpdate }) => {
 
             {/* Body */}
             <div className="flex-1 overflow-y-auto min-h-0 pr-1 space-y-2 no-scrollbar">
-                {module.type === 'group' ? (
+                {module.type === 'note' ? (
+                    <textarea
+                        className="w-full h-full bg-transparent border-none resize-none focus:outline-none text-sm text-muted-foreground placeholder:text-muted-foreground/50"
+                        placeholder="Type your notes here..."
+                        value={module.noteContent || ''}
+                        onChange={(e) => onUpdate(module.id, { noteContent: e.target.value })}
+                        onPointerDown={(e) => e.stopPropagation()}
+                    />
+                ) : module.type === 'group' ? (
                     <div className="space-y-1">
                         {module.links?.map((link, idx) => (
                             <div key={idx} className="group/link flex items-center justify-between text-sm p-1.5 rounded hover:bg-muted/50 transition-colors">
@@ -193,7 +202,7 @@ const ModuleCard = ({ module, onUpdate }) => {
             </div>
 
             {/* Footer Actions for Single Cards */}
-            {module.type !== 'group' && (
+            {module.type !== 'group' && module.type !== 'note' && (
                 <div className="mt-4 pt-2">
                     {module.type === 'quick_link' ? (
                         <a

@@ -56,14 +56,14 @@ const AddModuleForm = ({ onAdd }) => {
                         onChange={(e) => setUrl(e.target.value)}
                         placeholder="https://..."
                         className="w-full px-3 py-2 bg-background border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                        required={type !== 'group'}
-                        disabled={type === 'group'}
+                        required={type !== 'group' && type !== 'note'}
+                        disabled={type === 'group' || type === 'note'}
                     />
                 </div>
 
                 <div>
                     <label className="text-xs font-medium text-muted-foreground block mb-1">Type</label>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-2 gap-2">
                         <button
                             type="button"
                             onClick={() => setType('quick_link')}
@@ -93,6 +93,16 @@ const AddModuleForm = ({ onAdd }) => {
                             )}
                         >
                             Group
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => { setType('note'); setUrl(''); }}
+                            className={cn(
+                                "px-2 py-1.5 text-xs font-medium rounded-md border transition-colors",
+                                type === 'note' ? "bg-yellow-500/10 border-yellow-500 text-yellow-500" : "bg-background border-input text-muted-foreground hover:bg-muted"
+                            )}
+                        >
+                            Note / Text
                         </button>
                     </div>
                 </div>
