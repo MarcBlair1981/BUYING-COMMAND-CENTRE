@@ -159,14 +159,7 @@ const Dashboard = () => {
             </DndContext>
         </div>
     );
-    <div className="aspect-square">
-        <AddModuleForm onAdd={handleAddModule} />
-    </div>
-                    </div >
-                </SortableContext >
-            </DndContext >
-        </div >
-    );
+
 };
 
 export default Dashboard;
