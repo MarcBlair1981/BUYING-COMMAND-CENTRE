@@ -13,7 +13,7 @@ import {
     sortableKeyboardCoordinates,
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
-import { HelpCircle, Grip, Globe, MonitorPlay } from 'lucide-react';
+import { HelpCircle, Grip, Globe, MonitorPlay, Folder, StickyNote } from 'lucide-react';
 import ModuleCard from './ModuleCard';
 import AddModuleForm from './AddModuleForm';
 import {
@@ -107,25 +107,49 @@ const Dashboard = () => {
                             </TooltipContent>
                         </Tooltip>
 
+                        <div className="h-4 w-px bg-border mx-2" />
+
                         <Tooltip>
-                            <TooltipTrigger className="flex items-center gap-2 hover:text-green-500 transition-colors cursor-help">
+                            <TooltipTrigger className="flex items-center gap-2 text-green-500 hover:text-green-600 transition-colors cursor-help">
                                 <Globe className="w-4 h-4" />
-                                <span>Quick Link Mode</span>
+                                <span>Quick Link</span>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <p>Standard bookmarks. Click to open URL in a new tab.</p>
-                                <p className="text-xs text-muted-foreground mt-1">Best for: Static sites, reference pages.</p>
+                                <p>Standard bookmark (Green).</p>
+                                <p className="text-xs text-muted-foreground mt-1">Click to open URL in a new tab.</p>
                             </TooltipContent>
                         </Tooltip>
 
                         <Tooltip>
-                            <TooltipTrigger className="flex items-center gap-2 hover:text-blue-500 transition-colors cursor-help">
+                            <TooltipTrigger className="flex items-center gap-2 text-blue-500 hover:text-blue-600 transition-colors cursor-help">
                                 <MonitorPlay className="w-4 h-4" />
-                                <span>Active Monitor Mode</span>
+                                <span>Active Monitor</span>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <p>Trigger Antigravity Agents to check this URL.</p>
-                                <p className="text-xs text-muted-foreground mt-1">Best for: Tracking sold listings, price changes.</p>
+                                <p>Agent Task (Blue).</p>
+                                <p className="text-xs text-muted-foreground mt-1">Runs a background agent to check this URL.</p>
+                            </TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                            <TooltipTrigger className="flex items-center gap-2 text-purple-500 hover:text-purple-600 transition-colors cursor-help">
+                                <Folder className="w-4 h-4" />
+                                <span>Group</span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Collection (Purple).</p>
+                                <p className="text-xs text-muted-foreground mt-1">Holds multiple quick links.</p>
+                            </TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                            <TooltipTrigger className="flex items-center gap-2 text-yellow-500 hover:text-yellow-600 transition-colors cursor-help">
+                                <StickyNote className="w-4 h-4" />
+                                <span>Note</span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Notepad (Yellow).</p>
+                                <p className="text-xs text-muted-foreground mt-1">Simple text area for notes.</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
