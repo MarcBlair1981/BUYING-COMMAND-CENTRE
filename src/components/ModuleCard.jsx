@@ -5,7 +5,7 @@ import { ExternalLink, Play, GripVertical, Plus, Trash2, Folder } from 'lucide-r
 import { cn } from "@/lib/utils";
 import InfoTooltip from './InfoTooltip';
 
-const ModuleCard = ({ module, onUpdate }) => {
+const ModuleCard = ({ module, onUpdate, onDelete }) => {
     const {
         attributes,
         listeners,
@@ -133,6 +133,16 @@ const ModuleCard = ({ module, onUpdate }) => {
                             module.type === 'active_monitor' ? "Active Monitor: Click 'Check Now' to run agent." :
                                 "Group: A collection of quick links."
                     } />
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete(module.id);
+                        }}
+                        className="p-1 text-muted-foreground/50 hover:text-destructive rounded-md hover:bg-destructive/10 transition-colors"
+                        title="Delete Module"
+                    >
+                        <Trash2 className="h-4 w-4" />
+                    </button>
                     <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-1 text-muted-foreground/50 hover:text-muted-foreground rounded-md hover:bg-muted">
                         <GripVertical className="h-4 w-4" />
                     </div>

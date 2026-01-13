@@ -79,6 +79,12 @@ const Dashboard = () => {
         setModules([...modules, moduleWithId]);
     };
 
+    const handleDeleteModule = (id) => {
+        if (window.confirm('Are you sure you want to delete this module?')) {
+            setModules((items) => items.filter((item) => item.id !== id));
+        }
+    };
+
     return (
         <div className="space-y-8">
             {/* Guidance / Legend Section */}
@@ -142,6 +148,7 @@ const Dashboard = () => {
                                 key={module.id}
                                 module={module}
                                 onUpdate={handleUpdateModule}
+                                onDelete={handleDeleteModule}
                             />
                         ))}
                         <div className="aspect-square">
@@ -151,6 +158,14 @@ const Dashboard = () => {
                 </SortableContext>
             </DndContext>
         </div>
+    );
+    <div className="aspect-square">
+        <AddModuleForm onAdd={handleAddModule} />
+    </div>
+                    </div >
+                </SortableContext >
+            </DndContext >
+        </div >
     );
 };
 
