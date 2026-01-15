@@ -55,19 +55,31 @@ const HelpModal = ({ isOpen, onClose }) => {
                                 <div className="flex items-center gap-2 mb-2 text-blue-500 font-medium">
                                     <MonitorPlay className="w-4 h-4" /> Active Monitor
                                 </div>
-                                <p className="text-xs text-muted-foreground">Advanced monitor. Opens a dedicated browser window for automated checking.</p>
+                                <p className="text-xs text-muted-foreground">Automation task. "Check Now" triggers the local agent to open and inspect the URL (e.g., checking eBay Stock).</p>
                             </div>
-                            <div className="p-3 rounded-lg border border-border bg-muted/5 md:col-span-2">
+                            <div className="p-3 rounded-lg border border-border bg-muted/5">
                                 <div className="flex items-center gap-2 mb-2 text-purple-500 font-medium">
                                     <Box className="w-4 h-4" /> Group
                                 </div>
                                 <p className="text-xs text-muted-foreground">A folder for related links. Great for organizing "Daily Checks" or "Competitors".</p>
+                            </div>
+                            <div className="p-3 rounded-lg border border-border bg-muted/5">
+                                <div className="flex items-center gap-2 mb-2 text-yellow-500 font-medium">
+                                    <Box className="w-4 h-4" /> Note
+                                </div>
+                                <p className="text-xs text-muted-foreground">A simple text pad. Use it for to-do lists, templates, or temporary reminders.</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="space-y-6">
                         <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground/70">System Info</h4>
+
+                        <Section icon={Box} title="Managing Modules" color="text-red-500">
+                            To <strong>delete</strong> a module, look for the Trash icon <span className="inline-flex items-center justify-center p-1 bg-muted rounded"><X className="w-3 h-3" /></span> in the top-right corner of the card.
+                            <br />
+                            You can rearrange modules by dragging them with the handle icon.
+                        </Section>
 
                         <Section icon={ShieldCheck} title="Privacy & Data Storage">
                             Your dashboard layout and links are saved <strong>locally in your browser</strong>.
