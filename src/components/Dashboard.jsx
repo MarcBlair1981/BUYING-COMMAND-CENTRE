@@ -181,6 +181,59 @@ const Dashboard = () => {
                     </div>
                 </SortableContext>
             </DndContext>
+
+            {/* Data Management Footer */}
+            <div className="mt-12 pt-6 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+                <p>Data stored locally in your browser.</p>
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => {
+                            const dataStr = JSON.stringify(modules, null, 2);
+                            const blob = new Blob([dataStr], { type: "application/json" });
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = "rcc_backup_" + new Date().toISOString().split('T')[0] + ".json";
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }}
+                        className="px-3 py-1.5 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded border border-border transition-colors font-medium flex items-center gap-2"
+                    >
+                        Save to File (Export)
+                    </button>
+                    <label className="px-3 py-1.5 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded border border-border transition-colors font-medium flex items-center gap-2 cursor-pointer">
+                        Load from File (Import)
+                        <input
+                            type="file"
+                            accept=".json"
+                            className="hidden"
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (!file) return;
+                                const reader = new FileReader();
+                                reader.onload = (event) => {
+                                    try {
+                                        const imported = JSON.parse(event.target.result);
+                                        if (Array.isArray(imported)) {
+                                            if (confirm("This will overwrite your current dashboard. Are you sure?")) {
+                                                setModules(imported);
+                                                // Force refresh trigger if needed, but state update handles it
+                                            }
+                                        } else {
+                                            alert("Invalid file format.");
+                                        }
+                                    } catch (err) {
+                                        alert("Failed to read file.");
+                                    }
+                                };
+                                reader.readAsText(file);
+                                e.target.value = null; // Reset
+                            }}
+                        />
+                    </label>
+                </div>
+            </div>
         </div>
     );
 
