@@ -71,8 +71,8 @@ const SyncConfigModal = ({ isOpen, onClose, onConfigSaved }) => {
                     <div className="space-y-2 text-sm">
                         <p className="font-semibold">Step 2: Enable Database & Auth</p>
                         <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                            <li>In the sidebar, go to <strong>Build &gt; Authentication</strong>. Click Get Started -> Enable <strong>Google</strong>.</li>
-                            <li>Go to <strong>Build &gt; Firestore Database</strong>. Click Create -> Start in <strong>Production Mode</strong>.</li>
+                            <li>In the sidebar, go to <strong>Build &gt; Authentication</strong>. Click Get Started &rarr; Enable <strong>Google</strong>.</li>
+                            <li>Go to <strong>Build &gt; Firestore Database</strong>. Click Create &rarr; Start in <strong>Production Mode</strong>.</li>
                             <li>Go to <strong>Rules</strong> tab in Firestore and allow read/write (for now): <br />
                                 <code className="bg-muted px-1">allow read, write: if request.auth != null;</code>
                             </li>
