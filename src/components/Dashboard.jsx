@@ -13,7 +13,7 @@ import {
     sortableKeyboardCoordinates,
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
-import { HelpCircle, Grip, Globe, MonitorPlay, Folder, StickyNote, Cloud, LogIn, LogOut } from 'lucide-react';
+import { HelpCircle, Grip, Globe, MonitorPlay, Folder, StickyNote, Cloud, LogIn, LogOut, RefreshCw, CheckCircle, AlertTriangle } from 'lucide-react';
 import ModuleCard from './ModuleCard';
 import AddModuleForm from './AddModuleForm';
 import {
@@ -43,6 +43,8 @@ const Dashboard = () => {
 
     const [user, setUser] = useState(null);
     const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
+    const [syncStatus, setSyncStatus] = useState('idle'); // idle, saving, saved, error
+    const [lastSaved, setLastSaved] = useState(null);
 
     // Auth Listener
     useEffect(() => {
@@ -71,7 +73,17 @@ const Dashboard = () => {
 
     const saveToCloud = async (newModules) => {
         if (user && db) {
-            await setDoc(doc(db, "users", user.uid), { modules: newModules, updatedAt: new Date() });
+            setSyncStatus('saving');
+            try {
+                await setDoc(doc(db, "users", user.uid), { modules: newModules, updatedAt: new Date() });
+                setSyncStatus('saved');
+                setLastSaved(new Date());
+                // Reset to idle after 2s for cleaner look
+                setTimeout(() => setSyncStatus('idle'), 2000);
+            } catch (e) {
+                console.error("Save failed", e);
+                setSyncStatus('error');
+            }
         }
     };
 
@@ -243,9 +255,35 @@ const Dashboard = () => {
             <div className="mt-12 pt-6 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                     {user ? (
-                        <span className="flex items-center gap-2 text-primary font-medium bg-primary/10 px-3 py-1 rounded-full">
-                            <Cloud className="w-4 h-4" /> Synced as {user.email}
-                        </span>
+                        <div className="flex items-center gap-3">
+                            <span className="flex items-center gap-2 text-primary font-medium bg-primary/10 px-3 py-1 rounded-full">
+                                <Cloud className="w-4 h-4" /> Synced as {user.email}
+                            </span>
+
+                            {syncStatus === 'saving' && (
+                                <span className="flex items-center gap-1.5 text-xs text-yellow-500 animate-pulse">
+                                    <RefreshCw className="w-3 h-3 animate-spin" /> Saving...
+                                </span>
+                            )}
+                            {syncStatus === 'saved' && (
+                                <span className="flex items-center gap-1.5 text-xs text-green-500">
+                                    <CheckCircle className="w-3 h-3" /> Saved
+                                </span>
+                            )}
+                            {syncStatus === 'error' && (
+                                <span className="flex items-center gap-1.5 text-xs text-destructive font-medium" title="Check console for details">
+                                    <AlertTriangle className="w-3 h-3" /> Save Failed
+                                </span>
+                            )}
+
+                            <button
+                                onClick={() => saveToCloud(modules)}
+                                className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground hover:text-primary transition-colors ml-2"
+                                title="Force a cloud save immediately"
+                            >
+                                Force Save
+                            </button>
+                        </div>
                     ) : (
                         <span className="flex items-center gap-2">
                             <Cloud className="w-4 h-4 text-muted-foreground/50" /> Local Mode (Not Synced)
