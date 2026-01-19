@@ -148,6 +148,31 @@ const Dashboard = () => {
         }
     };
 
+    const fileInputRef = React.useRef(null);
+
+    const handleImport = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const importedModules = JSON.parse(e.target.result);
+                if (Array.isArray(importedModules)) {
+                    setModules(importedModules);
+                    saveToCloud(importedModules);
+                    alert('Backup restored successfully!');
+                } else {
+                    alert('Invalid backup file format. Expected an array of modules.');
+                }
+            } catch (err) {
+                console.error("Import failed", err);
+                alert('Failed to parse backup file.');
+            }
+        };
+        reader.readAsText(file);
+    };
+
     return (
         <div className="space-y-8">
             {/* Guidance / Legend Section */}
@@ -307,6 +332,22 @@ const Dashboard = () => {
                             <LogIn className="w-4 h-4" /> Connect Google Account
                         </button>
                     )}
+
+                    <div className="h-4 w-px bg-border mx-2" />
+
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleImport}
+                        className="hidden"
+                        accept=".json"
+                    />
+                    <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="text-xs hover:text-foreground underline underline-offset-4"
+                    >
+                        Import Backup
+                    </button>
 
                     <div className="h-4 w-px bg-border mx-2" />
 
